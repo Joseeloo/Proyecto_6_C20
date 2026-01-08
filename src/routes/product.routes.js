@@ -1,44 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-router.post("/create", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "create product endpoint (coming soon)",
-    body: req.body
-  });
-});
+const auth = require("../middleware/auth.middleware.js");
+const productController = require("../controllers/product.controller.js");
 
-router.get("/readall", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)"
-  });
-});
-
-router.get("/readone/:id", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)",
-    id: req.params.id
-  });
-});
-
-router.put("/update/:id", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)",
-    id: req.params.id,
-    body: req.body
-  });
-});
-
-router.delete("/delete/:id", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)",
-    id: req.params.id
-  });
-});
+router.post("/create", auth, productController.create);
+router.get("/readall", productController.readAll);
+router.get("/readone/:id", productController.readOne);
+router.put("/update/:id", auth, productController.update);
+router.delete("/delete/:id", auth, productController.remove);
 
 module.exports = router;
