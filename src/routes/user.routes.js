@@ -1,35 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-router.post("/register", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "register endpoint (coming soon)",
-    body: req.body
-  });
-});
+const auth = require("../middleware/auth.middleware.js");
+const userController = require("../controllers/user.controller.js");
 
-router.post("/login", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)",
-    body: req.body
-  });
-});
-
-router.get("/verifytoken", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)"
-  });
-});
-
-router.put("/update", (req, res) => {
-  return res.status(200).json({
-    ok: true,
-    message: "Endpoint (proximamente)",
-    body: req.body
-  });
-});
+router.post("/register", userController.register);
+router.post("/login", userController.login);
+router.get("/verifytoken", auth, userController.verifyToken);
+router.put("/update", auth, userController.update);
 
 module.exports = router;
