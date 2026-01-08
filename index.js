@@ -7,11 +7,15 @@ const connectDB = require("./src/config/db.js");
 const userRoutes = require("./src/routes/user.routes.js");
 const productRoutes = require("./src/routes/product.routes.js");
 
+const notFound = require("./src/middleware/notFound.js");
+const errorHandler = require("./src/middleware/errorHandler.js");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
+const corsOrigin = process.env.CORS_ORIGIN || "*";
+app.use(cors({ origin: corsOrigin }));
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (req, res) => {
   return res.status(200).json({ ok: true, message: "API OK" });
@@ -20,9 +24,8 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 
-app.use((req, res) => {
-  return res.status(404).json({ ok: false, message: "Ruta no encontrada" });
-});
+app.use(notFound);
+app.use(errorHandler);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
