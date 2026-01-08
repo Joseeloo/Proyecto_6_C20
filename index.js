@@ -10,8 +10,13 @@ const productRoutes = require("./src/routes/product.routes.js");
 const notFound = require("./src/middleware/notFound.js");
 const errorHandler = require("./src/middleware/errorHandler.js");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./src/docs/swagger");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const corsOrigin = process.env.CORS_ORIGIN || "*";
 app.use(cors({ origin: corsOrigin }));

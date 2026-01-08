@@ -1,0 +1,395 @@
+openapi: 3.0.0
+info:
+  title: Proyecto 6 - Backend Auth + Product API
+  version: 1.0.0
+  description: API REST con autenticación JWT y CRUD de productos asociados a usuarios.
+
+servers:
+  - url: http://localhost:5000
+    description: Local
+
+tags:
+  - name: User
+    description: Endpoints de autenticación y perfil
+  - name: Product
+    description: Endpoints CRUD de productos
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserRegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+          example: Usuario Test
+        email:
+          type: string
+          example: usuario@test.com
+        password:
+          type: string
+          example: 12345678
+
+    UserLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          example: usuario@test.com
+        password:
+          type: string
+          example: 12345678
+
+    UserUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Usuario Actualizado
+        email:
+          type: string
+          example: usuario_nuevo@test.com
+        password:
+          type: string
+          example: 12345678
+
+    ProductCreateRequest:
+      type: object
+      required: [name, price]
+      properties:
+        name:
+          type: string
+          example: Producto de prueba
+        description:
+          type: string
+          example: Producto creado desde Swagger
+        price:
+          type: number
+          example: 1000
+
+    ProductUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Producto actualizado
+        description:
+          type: string
+          example: Nueva descripción
+        price:
+          type: number
+          example: 1500
+
+    StandardSuccess:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: OK
+        data:
+          nullable: true
+
+    StandardError:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Error
+        errors:
+          nullable: true
+
+paths:
+  /:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: API OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+
+  /api/user/register:
+    post:
+      tags: [User]
+      summary: Registrar un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegisterRequest"
+      responses:
+        "201":
+          description: Usuario registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "400":
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "409":
+          description: Email duplicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/user/login:
+    post:
+      tags: [User]
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+      responses:
+        "200":
+          description: Login OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "401":
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/user/verifytoken:
+    get:
+      tags: [User]
+      summary: Verificar token del usuario
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "401":
+          description: Token inválido o faltante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/user/update:
+    put:
+      tags: [User]
+      summary: Actualizar perfil del usuario
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateRequest"
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "400":
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "401":
+          description: Token inválido o faltante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "409":
+          description: Email duplicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/product/create:
+    post:
+      tags: [Product]
+      summary: Crear producto (requiere auth)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreateRequest"
+      responses:
+        "201":
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "400":
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "401":
+          description: Token inválido o faltante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/product/readall:
+    get:
+      tags: [Product]
+      summary: Leer todos los productos
+      responses:
+        "200":
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+
+  /api/product/readone/{id}:
+    get:
+      tags: [Product]
+      summary: Leer un producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID de MongoDB del producto
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "400":
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/product/update/{id}:
+    put:
+      tags: [Product]
+      summary: Actualizar producto (auth + owner)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID de MongoDB del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateRequest"
+      responses:
+        "200":
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "401":
+          description: Token inválido o faltante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "403":
+          description: No es dueño
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+
+  /api/product/delete/{id}:
+    delete:
+      tags: [Product]
+      summary: Eliminar producto (auth + owner)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID de MongoDB del producto
+      responses:
+        "200":
+          description: Producto eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardSuccess"
+        "401":
+          description: Token inválido o faltante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "403":
+          description: No es dueño
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
