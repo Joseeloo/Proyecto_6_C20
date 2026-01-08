@@ -9,8 +9,8 @@ Proyecto desarrollado para el Módulo 6 del Bootcamp: Desarrollo Web Full Stack 
 - [Introducción general](#introducción-general)
 - [Arquitectura del proyecto](#arquitectura-del-proyecto)
 - [Componentes principales](#componentes-principales)
-- [Autentificación y autorización](#autentificacion-y-autorizacion)
-- [Servicios CRUD de Producto](#servicios-crud-de-productos)
+- [Autentificación y autorización](#autentificación-y-autorización)
+- [Servicios CRUD de Producto](#servicios-crud-de-producto)
 - [Documentación Swagger](#documentación-swagger)
 - [Estructura de carpetas](#estructura-de-carpetas)
 - [Instalación y ejecución](#instalación-y-ejecución)
@@ -118,11 +118,15 @@ Los productos están asociados a un usuario y cuentan con control de ownership:
 | DELETE | `/api/product/delete/:id`  | Eliminar producto (auth + owner)   |
 
 # Documentación Swagger
+Para iniciar: 
+```
+npm i swagger-ui-express yamljs
+```
 La API está documentada bajo el estándar OpenAPI 3.0 y visualizada con Swagger UI.
 - URL local: http://localhost:3000/api-docs
-- URL en Render: https://proyecto-4-c20.onrender.com/api-docs/
+- URL en Render: https://proyecto-6-c20.onrender.com/api-docs/
 
-<img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/abf83775-8401-4396-87a4-3c492780a9e3" />
+<img width="1898" height="907" alt="image" src="https://github.com/user-attachments/assets/ac354313-eb7f-4b39-a5ae-ea39d14a2cc6" />
 
 Desde esta interfaz se puede:
 - Explorar todos los endpoints.
@@ -138,6 +142,9 @@ Desde esta interfaz se puede:
 │   ├── 📁 controllers
 │   │   ├── user.controller.js
 │   │   └── product.controller.js
+│   ├── 📁 docs
+│   │   ├── swagger.js
+│   │   └── swagger.yaml
 │   ├── 📁 middleware
 │   │   ├── auth.middleware.js
 │   │   ├── notFound.js
@@ -195,8 +202,8 @@ Modo producción:
 npm run start
 ```
 
-### 5. Acceder a la API **(CAMBIAR)
-- API base: http://localhost:3000/api/reservas
+### 5. Acceder a la API
+- API base: http://localhost:3000/
 - Swagger Docs: http://localhost:3000/api-docs
 
 # Control de versiones
@@ -225,15 +232,14 @@ https://github.com/Joseeloo/Proyecto_6_C20
 Cumple con todos los requisitos mínimos y entregables:
 | Criterio                 | Estado                 |
 | ------------------------ | ---------------------- |
-| Proyecto individual      | ✅                      |
-| Arquitectura clara       | ✅                      |
-| Autenticación JWT        | ✅                      |
-| CRUD Productos           | ✅                      |
-| Autorización (ownership) | ✅                      |
-| Manejo de errores global | ✅                      |
-| Swagger                  | ⏳ Pendiente (opcional) |
-| Despliegue Render        | ⏳ Pendiente (opcional) |
-| Despliegue            |    ✅   | [Render](https://proyecto-4-c20.onrender.com/api-docs/)                   |
+| Proyecto individual      |✅|
+| Arquitectura clara       |✅|
+| Autenticación JWT        |✅|
+| CRUD Productos           |✅|
+| Autorización (ownership) |✅|
+| Manejo de errores global |✅|
+| Swagger                  |✅|
+| Despliegue Render        |[RENDER](https://proyecto-6-c20.onrender.com/api-docs/)|
 
 # Resultados y Pruebas de Endpoints
 Esta sección presenta los resultados de las pruebas realizadas sobre la API, demostrando el correcto funcionamiento de los endpoints solicitados en el enunciado del Proyecto 6.
@@ -435,10 +441,10 @@ Esto valida el cumplimiento de los requisitos funcionales del Proyecto 6.
 La API se encuentra desplegada y funcionando en la nube a través de **Render.com**.
 
 **Enlace base:** 
-- [https://proyecto-4-c20.onrender.com](https://proyecto-4-c20.onrender.com) (CAMBIAR)
+- [https://proyecto-6-c20.onrender.com](https://proyecto-6-c20.onrender.com)
 
 **Documentación Swagger:**  
-- [https://proyecto-4-c20.onrender.com/api-docs](https://proyecto-4-c20.onrender.com/api-docs) (CAMBIAR)
+- [https://proyecto-6-c20.onrender.com/api-docs](https://proyecto-6-c20.onrender.com/api-docs)
 
 > Puedes probar los endpoints directamente desde la interfaz Swagger sin necesidad de Postman o Thunder Client.
 
@@ -446,4 +452,4 @@ La API se encuentra desplegada y funcionando en la nube a través de **Render.co
 ---
 
 **Autor:** José Esteban  
-**Fecha de entrega:** 10-11-2025
+**Fecha de entrega:** 08-01-2026
