@@ -166,7 +166,7 @@ Desde esta interfaz se puede:
 └── 📄 README.md
 ```
 ### Estructura en Visual Studio Code
-<img width="249" height="744" alt="image" src="https://github.com/user-attachments/assets/5710cd99-2416-4638-b669-fdfb0ac4aa82" />
+<img width="293" height="702" alt="image" src="https://github.com/user-attachments/assets/ba7fc055-f267-4b6e-8f93-e3346e4db26d" />
 
 # Instalación y ejecución
 ### 1. Clonar el repositorio
@@ -239,6 +239,7 @@ Cumple con todos los requisitos mínimos y entregables:
 | Autorización (ownership) |✅|
 | Manejo de errores global |✅|
 | Swagger                  |✅|
+| MongoDB Cloud            |✅|
 | Despliegue Render        |[RENDER](https://proyecto-6-c20.onrender.com/api-docs/)|
 
 # Resultados y Pruebas de Endpoints
@@ -447,6 +448,15 @@ La API se encuentra desplegada y funcionando en la nube a través de **Render.co
 - [https://proyecto-6-c20.onrender.com/api-docs](https://proyecto-6-c20.onrender.com/api-docs)
 
 > Puedes probar los endpoints directamente desde la interfaz Swagger sin necesidad de Postman o Thunder Client.
+
+### Despliegue MongoDB Cloud
+
+**Usuarios**
+<img width="1917" height="864" alt="image" src="https://github.com/user-attachments/assets/e94e1938-dba4-4cf0-b748-e785afe77bcf" />
+
+**Productos**
+<img width="1917" height="873" alt="image" src="https://github.com/user-attachments/assets/a4f94be6-8b00-4b6d-a4bb-993a6cb58cff" />
+
 
 
 ---
